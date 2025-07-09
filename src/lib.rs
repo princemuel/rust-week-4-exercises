@@ -66,13 +66,25 @@ impl Default for LegacyTransactionBuilder {
 impl LegacyTransactionBuilder {
     pub fn new() -> Self { Self::default() }
 
-    pub fn version(mut self, version: i32) -> Self { todo!() }
+    pub fn version(mut self, version: i32) -> Self {
+        self.version = version;
+        self
+    }
 
-    pub fn add_input(mut self, input: TxInput) -> Self { todo!() }
+    pub fn add_input(mut self, input: TxInput) -> Self {
+        self.inputs.push(input);
+        self
+    }
 
-    pub fn add_output(mut self, output: TxOutput) -> Self { todo!() }
+    pub fn add_output(mut self, output: TxOutput) -> Self {
+        self.outputs.push(output);
+        self
+    }
 
-    pub fn lock_time(mut self, lock_time: u32) -> Self { todo!() }
+    pub fn lock_time(mut self, lock_time: u32) -> Self {
+        self.lock_time = lock_time;
+        self
+    }
 
     pub fn build(self) -> LegacyTransaction { todo!() }
 }
