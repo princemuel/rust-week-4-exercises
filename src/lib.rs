@@ -46,8 +46,9 @@ impl LegacyTransaction {
 
 // Transaction builder
 pub struct LegacyTransactionBuilder {
-    pub version:   i32,
-    pub inputs:    Vec<TxInput>,
+    pub version: i32,
+    pub inputs:  Vec<TxInput>,
+
     pub outputs:   Vec<TxOutput>,
     pub lock_time: u32,
 }
@@ -111,8 +112,20 @@ pub struct OutPoint {
 
 // Simple CLI argument parser
 pub fn parse_cli_args(args: &[String]) -> Result<CliCommand, BitcoinError> {
-    todo!()
-    // arguments
+    match args {
+        [] => Err(BitcoinError::ParseError("No command provided".to_string())),
+        [cmd] if cmd == "balance" => Ok(CliCommand::Balance),
+        [cmd, amount_str, address] if cmd == "send" => {
+            let amount = amount_str
+                .parse::<u64>()
+                .map_err(|_| BitcoinError::ParseError("Invalid amount format".to_string()))?;
+            Ok(CliCommand::Send {
+                amount,
+                address: address.clone(),
+            })
+        },
+        [cmd, ..] => Err(BitcoinError::ParseError(format!("Unknown command: {cmd}"))),
+    }
 }
 
 pub enum CliCommand {
