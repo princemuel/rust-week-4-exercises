@@ -37,11 +37,11 @@ fn test_builder_method_chaining() {
                 txid: [0; 32],
                 vout: 0,
             },
-            script_sig: vec![],
-            sequence: 0xFFFFFFFF,
+            script_sig:      vec![],
+            sequence:        0xffffffff,
         })
         .add_output(TxOutput {
-            value: 50_000_000, // 0.5 BTC
+            value:         50_000_000, // 0.5 BTC
             script_pubkey: vec![],
         })
         .lock_time(500_000);
@@ -65,9 +65,9 @@ fn test_builder_build() {
 #[test]
 fn test_transaction_serialization() {
     let tx = LegacyTransaction {
-        version: 1,
-        inputs: Vec::new(),
-        outputs: Vec::new(),
+        version:   1,
+        inputs:    Vec::new(),
+        outputs:   Vec::new(),
         lock_time: 0,
     };
 

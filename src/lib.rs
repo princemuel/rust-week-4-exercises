@@ -1,4 +1,5 @@
 use std::str::FromStr;
+
 use thiserror::Error;
 
 // Custom errors for Bitcoin operations
@@ -22,84 +23,64 @@ pub struct Point<T> {
 }
 
 impl<T> Point<T> {
-    pub fn new(x: T, y: T) -> Self {
-        // TODO: Implement constructor for Point
-    }
+    pub fn new(x: T, y: T) -> Self { Self { x, y } }
 }
 
 // Custom serialization for Bitcoin transaction
 pub trait BitcoinSerialize {
-    fn serialize(&self) -> Vec<u8> {
-        // TODO: Implement serialization to bytes
-    }
+    fn serialize(&self) -> Vec<u8> { todo!() }
 }
 
 // Legacy Bitcoin transaction
 #[derive(Debug, Clone)]
 pub struct LegacyTransaction {
-    pub version: i32,
-    pub inputs: Vec<TxInput>,
-    pub outputs: Vec<TxOutput>,
+    pub version:   i32,
+    pub inputs:    Vec<TxInput>,
+    pub outputs:   Vec<TxOutput>,
     pub lock_time: u32,
 }
 
 impl LegacyTransaction {
-    pub fn builder() -> LegacyTransactionBuilder {
-        // TODO: Return a new builder for constructing a transaction
-    }
+    pub fn builder() -> LegacyTransactionBuilder { todo!() }
 }
 
 // Transaction builder
 pub struct LegacyTransactionBuilder {
-    pub version: i32,
-    pub inputs: Vec<TxInput>,
-    pub outputs: Vec<TxOutput>,
+    pub version:   i32,
+    pub inputs:    Vec<TxInput>,
+    pub outputs:   Vec<TxOutput>,
     pub lock_time: u32,
 }
 
 impl Default for LegacyTransactionBuilder {
-    fn default() -> Self {
-        // TODO: Implement default values
-    }
+    fn default() -> Self { todo!() }
 }
 
 impl LegacyTransactionBuilder {
-    pub fn new() -> Self {
-        // TODO: Initialize new builder by calling default
-    }
+    pub fn new() -> Self { todo!() }
 
-    pub fn version(mut self, version: i32) -> Self {
-        // TODO: Set the transaction version
-    }
+    pub fn version(mut self, version: i32) -> Self { todo!() }
 
-    pub fn add_input(mut self, input: TxInput) -> Self {
-        // TODO: Add input to the transaction
-    }
+    pub fn add_input(mut self, input: TxInput) -> Self { todo!() }
 
-    pub fn add_output(mut self, output: TxOutput) -> Self {
-        // TODO: Add output to the transaction
-    }
+    pub fn add_output(mut self, output: TxOutput) -> Self { todo!() }
 
-    pub fn lock_time(mut self, lock_time: u32) -> Self {
-        // TODO: Set lock_time for transaction
-    }
+    pub fn lock_time(mut self, lock_time: u32) -> Self { todo!() }
 
-    pub fn build(self) -> LegacyTransaction {
-        // TODO: Build and return the final LegacyTransaction
-    }
+    pub fn build(self) -> LegacyTransaction { todo!() }
 }
 
 // Transaction components
 #[derive(Debug, Clone)]
 pub struct TxInput {
     pub previous_output: OutPoint,
-    pub script_sig: Vec<u8>,
-    pub sequence: u32,
+    pub script_sig:      Vec<u8>,
+    pub sequence:        u32,
 }
 
 #[derive(Debug, Clone)]
 pub struct TxOutput {
-    pub value: u64, // in satoshis
+    pub value:         u64, // in satoshis
     pub script_pubkey: Vec<u8>,
 }
 
@@ -111,7 +92,8 @@ pub struct OutPoint {
 
 // Simple CLI argument parser
 pub fn parse_cli_args(args: &[String]) -> Result<CliCommand, BitcoinError> {
-    // TODO: Match args to "send" or "balance" commands and parse required arguments
+    todo!()
+    // arguments
 }
 
 pub enum CliCommand {
@@ -124,14 +106,12 @@ impl TryFrom<&[u8]> for LegacyTransaction {
     type Error = BitcoinError;
 
     fn try_from(data: &[u8]) -> Result<Self, Self::Error> {
-        // TODO: Parse binary data into a LegacyTransaction
+        todo!()
         // Minimum length is 10 bytes (4 version + 4 inputs count + 4 lock_time)
     }
 }
 
 // Custom serialization for transaction
 impl BitcoinSerialize for LegacyTransaction {
-    fn serialize(&self) -> Vec<u8> {
-        // TODO: Serialize only version and lock_time (simplified)
-    }
+    fn serialize(&self) -> Vec<u8> { todo!() }
 }
