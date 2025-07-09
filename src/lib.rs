@@ -53,11 +53,18 @@ pub struct LegacyTransactionBuilder {
 }
 
 impl Default for LegacyTransactionBuilder {
-    fn default() -> Self { todo!() }
+    fn default() -> Self {
+        Self {
+            version:   1,
+            inputs:    Vec::with_capacity(0),
+            outputs:   Vec::with_capacity(0),
+            lock_time: 0,
+        }
+    }
 }
 
 impl LegacyTransactionBuilder {
-    pub fn new() -> Self { todo!() }
+    pub fn new() -> Self { Self::default() }
 
     pub fn version(mut self, version: i32) -> Self { todo!() }
 
