@@ -173,7 +173,7 @@ pub enum CliCommand {
 }
 
 macro_rules! parse_le_int {
-    ($buffer:expr, $offset:expr, $type:ty) => {{
+    ($buffer:expr, $offset:expr, $T:ty) => {{
         if $offset + 4 > $buffer.len() {
             return Err(BitcoinError::InvalidTransaction);
         }
@@ -182,7 +182,7 @@ macro_rules! parse_le_int {
             .try_into()
             .map_err(|_| BitcoinError::InvalidTransaction)?;
 
-        Ok(<$type>::from_le_bytes(bytes))
+        Ok(<$T>::from_le_bytes(bytes))
     }};
 }
 
