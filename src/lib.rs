@@ -89,7 +89,7 @@ impl Default for LegacyTransactionBuilder {
     fn default() -> Self {
         Self {
             version:   1,
-            inputs:    Vec::with_capacity(1),
+            inputs:    Vec::with_capacity(0),
             outputs:   Vec::with_capacity(0),
             lock_time: 0,
         }
@@ -191,8 +191,6 @@ impl TryFrom<&[u8]> for LegacyTransaction {
     type Error = BitcoinError;
 
     fn try_from(data: &[u8]) -> Result<Self, Self::Error> {
-        // Minimum length is 16 bytes (4 version + 4 inputs count + 4 outputs count + 4
-        // lock_time)
         if data.len() < 16 {
             return Err(BitcoinError::InvalidTransaction);
         }
@@ -202,11 +200,8 @@ impl TryFrom<&[u8]> for LegacyTransaction {
         let outputs_count = parse_le_int!(data, 8, u32)?;
         let lock_time = parse_le_int!(data, 12, u32)?;
 
-        let mut inputs = Vec::new();
-        inputs.reserve_exact(inputs_count as usize);
-
-        let mut outputs = Vec::new();
-        outputs.reserve_exact(outputs_count as usize);
+        let inputs = Vec::with_capacity(inputs_count as usize);
+        let outputs = Vec::with_capacity(outputs_count as usize);
 
         Ok(Self {
             version,
