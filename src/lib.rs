@@ -172,6 +172,20 @@ pub enum CliCommand {
     Balance,
 }
 
+macro_rules! parse_le_int {
+    ($buffer:expr, $offset:expr, $type:ty) => {{
+        if $offset + 4 > $buffer.len() {
+            return Err(BitcoinError::InvalidTransaction);
+        }
+
+        let bytes: [u8; 4] = $buffer[$offset..$offset + 4]
+            .try_into()
+            .map_err(|_| BitcoinError::InvalidTransaction)?;
+
+        Ok(<$type>::from_le_bytes(bytes))
+    }};
+}
+
 // Decoding legacy transaction
 impl TryFrom<&[u8]> for LegacyTransaction {
     type Error = BitcoinError;
@@ -183,13 +197,11 @@ impl TryFrom<&[u8]> for LegacyTransaction {
             return Err(BitcoinError::InvalidTransaction);
         }
 
-        let version = read_i32_le(data, 0)?;
-        let inputs_count = read_u32_le(data, 4)?;
-        let outputs_count = read_u32_le(data, 8)?;
-        let lock_time = read_u32_le(data, 12)?;
+        let version = parse_le_int!(data, 0, i32)?;
+        let inputs_count = parse_le_int!(data, 4, u32)?;
+        let outputs_count = parse_le_int!(data, 8, u32)?;
+        let lock_time = parse_le_int!(data, 12, u32)?;
 
-        // For this simplified implementation, we'll create vectors with proper capacity
-        // based on the parsed counts from the transaction data
         let mut inputs = Vec::new();
         inputs.reserve_exact(inputs_count as usize);
 
@@ -203,31 +215,6 @@ impl TryFrom<&[u8]> for LegacyTransaction {
             lock_time,
         })
     }
-}
-
-fn read_u32_le(data: &[u8], offset: usize) -> Result<u32, BitcoinError> {
-    if offset + 4 > data.len() {
-        return Err(BitcoinError::InvalidTransaction);
-    }
-    Ok(u32::from_le_bytes([
-        data[offset],
-        data[offset + 1],
-        data[offset + 2],
-        data[offset + 3],
-    ]))
-}
-
-// Helper function to read i32 from bytes in little-endian format
-fn read_i32_le(data: &[u8], offset: usize) -> Result<i32, BitcoinError> {
-    if offset + 4 > data.len() {
-        return Err(BitcoinError::InvalidTransaction);
-    }
-    Ok(i32::from_le_bytes([
-        data[offset],
-        data[offset + 1],
-        data[offset + 2],
-        data[offset + 3],
-    ]))
 }
 
 // Custom serialization for transaction
