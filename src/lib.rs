@@ -89,8 +89,8 @@ impl Default for LegacyTransactionBuilder {
     fn default() -> Self {
         Self {
             version:   1,
-            inputs:    Vec::with_capacity(0),
-            outputs:   Vec::with_capacity(0),
+            inputs:    Vec::with_capacity(4),
+            outputs:   Vec::with_capacity(4),
             lock_time: 0,
         }
     }
